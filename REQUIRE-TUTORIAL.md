@@ -31,11 +31,10 @@ Let's instantiate a model in our router...
 
 		define([
 		  'backbone',
-		  'collection',
 		  'views/root',
 		  'models/contact',
 		  'views/contacts-list/index'
-		], function(Backbone, Collection, RootView, ContactModel, ContactListIndexView) {
+		], function(Backbone, RootView, ContactModel, ContactListIndexView) {
 		  return Backbone.Router.extend({
 		    routes: {
 		      "": "index"
@@ -57,7 +56,25 @@ Let's instantiate a model in our router...
 
 		I have a friend named {{firstname}} {{lastname}} and I hit him up at {{number}}
 
-Joy! Model attributes directly accessible in our template! Fire it up with `$ npm start`. 
+Fire it up with `$ npm start`. Debug if necessary - WebKit DevTools is useful, and do take the time to install the Thorax Chrome Plugin. If you're getting 'no such file or directory' messages, do a recursive search for the file name or directory it says isn't there and you'll discover where you've gone wrong in naming. [have walmart team brainstorm debug techniques for require if you like]. Model attributes directly accessible in our template! 
+
+Let's get a collection going:
+
+		$ yo thorax:collection contacts
+
+In the newly generated `js/collections/contacts.js`:
+
+		define(['collection', 'models/contact'], function (Collection, Model) {  //pass in the contact model
+		  return Collection.extend({
+		    name: 'contacts',
+		    model: Model  //set it as an attribute of the collection
+		  });
+		});
+
+Now, we can [instantiate a model by passing values into our collection in the router](http://backbonejs.org/#Collection-model). Let's do that, and change the view property from model to collection:
+
+
+
 
 
 
