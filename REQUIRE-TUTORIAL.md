@@ -54,7 +54,7 @@ Let's instantiate a model in our router...
 
 ...and then add the model attributes to our template `js/templates/index.hbs`: 
 
-		I have a friend named {{firstname}} {{lastname}} and I hit him up at {{number}}
+		I have a friend named {{firstname}} {{lastname}} who I hit up at {{number}}
 
 Fire it up with `$ npm start`. Debug if necessary - WebKit DevTools is useful, and do take the time to install the Thorax Chrome Plugin. If you're getting 'no such file or directory' messages, do a recursive search for the file name or directory it says isn't there and you'll discover where you've gone wrong in naming. [have walmart team brainstorm debug techniques for require if you like]. Model attributes directly accessible in our template! 
 
