@@ -1,4 +1,6 @@
-Welcome! We're starting the contacts list tutorial from the todo-list generator project to make sure there aren't any hiccups or typos getting stuff rendered initially. There are a bunch of files you'll need to rename and a little bit of code to delete, but it's much faster than going through all the steps we went through in the first tutorial to get you there. Go ahead and rename the following files and folders to contacts-list rather than todo-list for consistency:
+Ryan - may this help you gain hundreds of contributors! And may your framework be bug free that you never need them.
+
+Welcome! We're starting the contacts list tutorial from the todo-list generator project to make sure there aren't any hiccups getting stuff rendered initially. Thanks to Rob Gerstenberger for invaluable input. There are a bunch of files you'll need to rename and a little bit of code to delete, but it's much faster than going through all the steps we went through in the first tutorial to get you there. You could even leave the names as they are, since it doesn't really matter too much. If you like, go ahead and rename the following files and folders to contacts-list rather than todo-list for consistency:
 
 * js/routers/todo-list.js
 * js/views/todo-list/index.js
@@ -100,7 +102,7 @@ Now, we can [instantiate a model by passing values into our collection in the ro
 We're cruising now, and we need to render the collection - we'll now use a handlebars block helper in the template like we did in the first tutorial:
 
 		{{#collection}}
-		I have a friend named {{firstname}} {{lastname}} who I hit up at {{phone}}
+		  <li> I have a friend named {{firstname}} {{lastname}} who I hit up at {{phone}} </li>
 		{{/collection}}
 
 `$ npm start`, and you should have two contacts on screen. This concludes the first part of this tutorial: we've now successfully used models, collections, views, routers and templates, and have seen how they relate to each other using RequireJS syntax. Onto CRUD! Next, we'll explore the syntax for adding a child view to handle the 'create' functionality. Best practice: one view, one objective. Here, we'll create a form that adds a model to our collection: 
@@ -176,15 +178,15 @@ Let's give this child a home! In `js/views/contacts-list/index.js` we'll instant
 `this` will refer to an instance of the parent view here - so `currentInstanceOfTheParentView.contactFor` will be an instance of our child view. Lastly, let's use the `{{view}}` template helper to get the child template into the parent's template:
 
 		{{#collection}}
-			I have a friend named {{firstname}} {{lastname}} who I hit up at {{phone}}
+			<li> I have a friend named {{firstname}} {{lastname}} who I hit up at {{phone}} </li>
 		{{/collection}}
 		{{view contactForm}}
 
-`$ npm start` and debug if necessary to see your working form. If you add one with the Chrome inspector open, you should see it throw the following error: `Uncaught Error: A "url" property or function must be specified` - and why shouldn't it? We've not yet told it where to save our models. For this example, we'll use `Backbone.localStorage`, which is a Backbone plugin we'll install by running `$ bower install backbone.localStorage` from within our project directory. Since Bower doesn't have this one, let's create a new folder called `lib` - or whatever you'd like to use for random scripts - and put it in our `js` folder. This ensures it will be built with our project when we run `$ npm start`. Since we'll also need to add this to `Gruntfile.js`, this is a good time to break down the `options` object in the require config function:
+`$ npm start` and debug if necessary to see your working form. If you add one with the Chrome inspector open, you should see it throw the following error: `Uncaught Error: A "url" property or function must be specified` - and why shouldn't it? We've not yet told it where to save our models. For this example, we'll use `Backbone.localStorage`, which is a Backbone plugin we'll install by running `$ bower install backbone.localStorage` from within our project directory. Since we'll also need to add this to `Gruntfile.js`, this is a good time to break down the `options` object in the require config function:
 
     var options = {
       appDir: paths.js,
-      baseUrl: './',  //***BY DEFAULT PATHS YOU GIVE REQUIRE ARE RELATIVE TO PUBLIC/INDEX.HTML***
+      baseUrl: './',          //***BY DEFAULT, ALL PATHS YOU GIVE REQUIRE ARE RELATIVE TO PUBLIC/INDEX.HTML***
       dir: paths.output.js,
       modules: [
         {
@@ -231,12 +233,109 @@ Next, we'll need to ammend the [`url` property of the collection](http://backbon
 		    name: 'contacts',
 		    model: Model,
 		    localStorage: new Backbone.LocalStorage("OurVeryOwnContactsCollection")  //booya.
+		    // url: "/people"  <-- replace local storage with your REST routes when you're hitting a server
 		  });
 		});
 
+`$ npm start` and, if successful, you should be able to see entries inserted into local storage (in DevTools, check Resources > Session Storage > http://localhost:8000). We've issued a `POST` and `CREATE` is taken care of - let's issue our `GET` and take down `READ`:
 
+		define([
+		  'backbone',
+		  'views/root',
+		  'collections/contacts',
+		  'views/contacts-list/index'
+		], function(Backbone, RootView, ContactCollection, ContactListIndexView) {
+		  return Backbone.Router.extend({
+		    routes: {
+		      "": "index"
+		    },
+		    index: function() {
+		      var contacts = new ContactCollection();
+		      contacts.fetch();  //READ
+		      var view = new ContactListIndexView({
+		        collection: contacts
+		      });
+		      RootView.getInstance().setView(view);
+		    }
+		  });
+		}); 
 
+You can remove the old code instantiating your play data, lest the values be inserted local storage each time the application runs. Your data should now be persisting between builds. Let's do `DELETE`:
 
+		define([
+		  'view',
+		  'templates/contacts-list/index',
+		  'views/contacts-list/contact-form'
+		], function(View, template, ContactFormChildView) {
+		  return View.extend({
+		    name: "contacts-list/index",
+		    template: template,
+		    events: {
+		    },
+		    initialize: function(){
+		      this.contactForm = new ContactFormChildView({
+		        collection: this.collection
+		      })
+		    },
+		    handleDelete: function(e) {
+		      $(event.target).model().destroy();  //extension of the $ gets you the nearest bound model
+		    }
+		  });
+		});
+
+Insert the `handleDelete` method into `js/views/index.js`. We now have a method on the view, but how do we trigger it? In the template:
+
+		{{#collection}}
+			<li> I have a friend named {{firstname}} {{lastname}} who I hit up at {{phone}} </li>
+			{{#button "handleDelete"}}Delete{{/button}}  {{!-- see thorax API for a list of all custom template helpers --}}
+		{{/collection}}
+		{{view contactForm}}
+
+A `DELETE` is issued when the button is clicked - our data is gone. Let's finish up with `UPDATE` and issue a `PUT`. We'll first take a brief detour to demonstrate how to add a new route [based on the `id` of a model](http://backbonejs.org/#Model-id). First, let's nuke the index view in favor of a 'detail' view we'll add. This means a new view, template and method in the router. Starting with the view: 
+
+		$ yo thorax:view contacts-list/contact-details
+
+We need a way to get to the page, so let's make each of the sentences we're constructing in our `index.hbs` template a link using another custom handlebars helper: 
+
+		{{#collection}}
+			{{#link "details/{{id}}" expand-tokens=true}} 
+			  <li> I have a friend named {{firstname}} {{lastname}} who I hit up at {{phone}} </li> 
+			{{/link}}
+			{{#button method="handleDelete"}}Delete{{/button}}
+		{{/collection}}
+		{{view contactForm}}
+
+So, in plain English - as we loop through the collection, each list item will become a link to the route `#details/the_id_of_the_current_model`. [See the BackboneJS site on the hashtag and the use of params](http://backbonejs.org/#Router-routes). Just like our `{{button}}` helper, our `{{link}}` helper is firing a method - this time on the router and with an argument of `id`. Let's take a look at the router and follow that `id`'s journey:
+
+		define([
+		  'backbone',
+		  'views/root',
+		  'collections/contacts',
+		  'views/contacts-list/index',
+		  'views/contacts-list/contact-details'  //add the new view to the deps
+		], function(Backbone, RootView, ContactCollection, ContactListIndexView, ContactListDetailView) {  //& to the args
+		  return Backbone.Router.extend({
+		    routes: {
+		      "": "index"
+		    },
+		    index: function() {
+		      var contacts = new ContactCollection();
+		      contacts.fetch();
+		      var view = new ContactListIndexView({
+		        collection: contacts
+		      });
+		      RootView.getInstance().setView(view);
+		    },
+		    details: function(id){  													//we'll hit the route with {{id}}
+		      var detailView = new ContactListDetailView({		//and instantiate the detail view
+		        model: ContactCollection.get(id)							//set the model to the id passed into {{#link}}
+		      });
+		      RootView.getInstance().setView(detailView);			//nuke the old view and put the new one in place
+		    }
+		  });
+		}); 
+
+And in contact-details, we'll add a bunch of new code dealing with validation and `UPDATE`:
 
 
 

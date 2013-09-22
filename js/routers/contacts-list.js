@@ -2,22 +2,29 @@ define([
   'backbone',
   'views/root',
   'collections/contacts',
-  'views/contacts-list/index'
-], function(Backbone, RootView, ContactCollection, ContactListIndexView) {
+  'views/contacts-list/index',
+  'views/contacts-list/contact-details'
+], function(Backbone, RootView, ContactCollection, ContactListIndexView, ContactListDetailView) {
   return Backbone.Router.extend({
     routes: {
-      "": "index"
+      "": "index",
+      "details/:id": "details"
     },
     index: function() {
       var contacts = new ContactCollection();
-
-      contacts.add({firstname: "Barack", lastname: "Obama", phone: "(333) 111 4444"})
-      contacts.add({firstname: "Hillary", lastname: "Clinton", phone: "(999) 222 2222"})
-
+      contacts.fetch();
       var view = new ContactListIndexView({
         collection: contacts
       });
       RootView.getInstance().setView(view);
+    },
+    details: function(id){
+      var contactsCollection = new ContactCollection();
+      var model = contactsCollection.get(id)
+      var detailView = new ContactListDetailView({
+        model: model
+      });
+      RootView.getInstance().setView(detailView);
     }
   });
 }); 

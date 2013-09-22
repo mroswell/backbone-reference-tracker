@@ -12,6 +12,9 @@ define([
       this.contactForm = new ContactFormChildView({
         collection: this.collection
       })
+    },
+    handleDelete: function(e) {
+      $(event.target).model().destroy();
     }
   });
 });
