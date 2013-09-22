@@ -1,6 +1,7 @@
-define(['collection', 'models/contact'], function (Collection, Model) {
+define(['collection', 'models/contact', 'localstorage'], function (Collection, Model, localstorage) {
   return Collection.extend({
     name: 'contacts',
-    model: Model
+    model: Model,
+    localStorage: new Backbone.LocalStorage("OurVeryOwnContactsCollection")
   });
 });

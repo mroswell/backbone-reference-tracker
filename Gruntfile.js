@@ -142,13 +142,14 @@ module.exports = function(grunt) {
           name: 'main'
         } 
       ],
-      paths: {
+      paths: {  
         'jquery': '../bower_components/jquery/jquery',
         'underscore': '../bower_components/underscore/underscore',
         'handlebars': '../bower_components/handlebars/handlebars.runtime',
         'backbone': '../bower_components/backbone/backbone',
         'thorax': '../bower_components/thorax/thorax',
-        'bootstrap': '../bower_components/bootstrap/js/bootstrap'
+        'bootstrap': '../bower_components/bootstrap/js/bootstrap',
+        'localstorage': '../bower_components/backbone.localStorage/backbone.localStorage'
       },
       shim: {
         'handlebars': {
@@ -167,6 +168,9 @@ module.exports = function(grunt) {
         },
         'bootstrap': {
           deps: ['jquery']
+        },
+        'localstorage': {
+          deps: ['backbone']
         }
       }
     };

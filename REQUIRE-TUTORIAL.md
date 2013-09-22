@@ -173,13 +173,66 @@ Let's give this child a home! In `js/views/contacts-list/index.js` we'll instant
 		  });
 		});
 
-The 'this' keyword will refer to an instance of the parent view here - so 'currentInstanceOfTheParentView.contactForm will be an instance of our child view. Lastly, let's use the `{{view}}` template helper to get the child template into the parent's template:
+`this` will refer to an instance of the parent view here - so `currentInstanceOfTheParentView.contactFor` will be an instance of our child view. Lastly, let's use the `{{view}}` template helper to get the child template into the parent's template:
 
 		{{#collection}}
 			I have a friend named {{firstname}} {{lastname}} who I hit up at {{phone}}
 		{{/collection}}
 		{{view contactForm}}
 
+`$ npm start` and debug if necessary to see your working form. If you add one with the Chrome inspector open, you should see it throw the following error: `Uncaught Error: A "url" property or function must be specified` - and why shouldn't it? We've not yet told it where to save our models. For this example, we'll use `Backbone.localStorage`, which is a Backbone plugin we'll install by running `$ bower install backbone.localStorage` from within our project directory. Since Bower doesn't have this one, let's create a new folder called `lib` - or whatever you'd like to use for random scripts - and put it in our `js` folder. This ensures it will be built with our project when we run `$ npm start`. Since we'll also need to add this to `Gruntfile.js`, this is a good time to break down the `options` object in the require config function:
+
+    var options = {
+      appDir: paths.js,
+      baseUrl: './',  //***BY DEFAULT PATHS YOU GIVE REQUIRE ARE RELATIVE TO PUBLIC/INDEX.HTML***
+      dir: paths.output.js,
+      modules: [
+        {
+          name: 'main'
+        } 
+      ],
+      paths: {  //***shorten things up so that you're not writing these paths in every define statement***
+        'jquery': '../bower_components/jquery/jquery',
+        'underscore': '../bower_components/underscore/underscore',
+        'handlebars': '../bower_components/handlebars/handlebars.runtime',
+        'backbone': '../bower_components/backbone/backbone',
+        'thorax': '../bower_components/thorax/thorax',
+        'bootstrap': '../bower_components/bootstrap/js/bootstrap',
+        'localstorage': '../bower_components/backbone.localStorage/backbone.localStorage'
+      },
+      shim: {  //***anything not written as a require module has to go here, ie., third party libraries***
+        'handlebars': {
+          exports: 'Handlebars'
+        },
+        'backbone': {
+          exports: 'Backbone',
+          deps: ['jquery', 'underscore']
+        },
+        'underscore': {
+          exports: '_'
+        },
+        'thorax': {
+          exports: 'Thorax',
+          deps: ['handlebars', 'backbone']
+        },
+        'bootstrap': {
+          deps: ['jquery']
+        },
+        'localstorage': {  //***here's our backbone.localStorage adapter!***
+          deps: ['backbone']  //***we'll tell require to load this script after it loads backbone***
+        }
+      }
+    };
+
+Next, we'll need to ammend the [`url` property of the collection](http://backbonejs.org/#Collection-url) so that it hits localstorage rather than a REST route: 
+
+		define(['collection', 'models/contact', 'localstorage'], function (Collection, Model, localstorage) {
+		  return Collection.extend({
+		    name: 'contacts',
+		    model: Model,
+		    localStorage: new Backbone.LocalStorage("OurVeryOwnContactsCollection")  //booya.
+		  });
+		});
 
 
 
