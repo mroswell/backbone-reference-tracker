@@ -3,3 +3,23 @@
 <p> Last Name: {{lastname}} </p>
 <p> Number to hit up at: {{phone}} </p>
 
+{{#button method="editPerson"}}
+  Edit
+{{/button}}
+
+<form class="personEditForm">
+  <label>
+    First
+    <input type="text" name="firstname"> 
+  </label>
+  <label>
+    Last
+    <input type="text" name="lastname"> 
+  </label>
+  <label>
+    Phone
+    <input type="text" name="phone"> 
+  </label>
+    <button type="submit"> Update </button>
+    {{#button "cancelEdit" type="button"}} Cancel {{/button}}
+</form>

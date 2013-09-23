@@ -24,8 +24,8 @@ This tutorial picks up where the first one (non persistent todo app) left off. W
 		  return Model.extend({
 		    name: 'contact',
 		    defaults: {
-		      firstName: "unknown",
-		      lastName: "unknown",
+		      firstname: "unknown",
+		      lastname: "unknown",
 		      phone: "unknown"
 		    }
 		  });
@@ -182,7 +182,11 @@ Let's give this child a home! In `js/views/contacts-list/index.js` we'll instant
 		{{/collection}}
 		{{view contactForm}}
 
-`$ npm start` and debug if necessary to see your working form. If you add one with the Chrome inspector open, you should see it throw the following error: `Uncaught Error: A "url" property or function must be specified` - and why shouldn't it? We've not yet told it where to save our models. For this example, we'll use `Backbone.localStorage`, which is a Backbone plugin we'll install by running `$ bower install backbone.localStorage` from within our project directory. Since we'll also need to add this to `Gruntfile.js`, this is a good time to break down the `options` object in the require config function:
+`$ npm start` and debug if necessary to see your working form. If you add one with the Chrome inspector open, you should see it throw the following error: `Uncaught Error: A "url" property or function must be specified` - and why shouldn't it? We've not yet told it where to save our models. For this example, we'll use `Backbone.localStorage`, which is a Backbone plugin we'll install by running
+
+		$ bower install backbone.localStorage 
+
+from within our project directory. Since we'll also need to add this to `Gruntfile.js`, this is a good time to break down the `options` object in the require config function:
 
     var options = {
       appDir: paths.js,
@@ -316,7 +320,8 @@ So, in plain English - as we loop through the collection, each list item will be
 		], function(Backbone, RootView, ContactCollection, ContactListIndexView, ContactListDetailView) {  //& to the args
 		  return Backbone.Router.extend({
 		    routes: {
-		      "": "index"
+		      "": "index",
+		      "details/:id": "details"
 		    },
 		    index: function() {
 		      var contacts = new ContactCollection();
@@ -326,19 +331,91 @@ So, in plain English - as we loop through the collection, each list item will be
 		      });
 		      RootView.getInstance().setView(view);
 		    },
-		    details: function(id){  													//we'll hit the route with {{id}}
+		    details: function(id){  													//we'll hit the route passing in the id of the clicked model
+		      var contacts = new ContactCollection();					//instantiate collection
+		      contacts.fetch();																//fetch data
 		      var detailView = new ContactListDetailView({		//and instantiate the detail view
-		        model: ContactCollection.get(id)							//set the model to the id passed into {{#link}}
+		        model: contacts.get(id)												//set the model to the id passed into {{#link}}
 		      });
 		      RootView.getInstance().setView(detailView);			//nuke the old view and put the new one in place
 		    }
 		  });
 		}); 
 
-And in contact-details, we'll add a bunch of new code dealing with validation and `UPDATE`:
+Let's write our template to ensure the router is working (and add our `UPDATE` form):
 
+		{{id}}
+		<p> First Name: {{firstname}} </p>
+		<p> Last Name: {{lastname}} </p>
+		<p> Number to hit up at: {{phone}} </p>
+		
+		{{#button method="editPerson"}}
+		  Edit
+		{{/button}}
+		
+		<form class="personEditForm">
+		  <label>
+		    First
+		    <input type="text" name="firstname"> 
+		  </label>
+		  <label>
+		    Last
+		    <input type="text" name="lastname"> 
+		  </label>
+		  <label>
+		    Phone
+		    <input type="text" name="phone"> 
+		  </label>
+		    <button type="submit"> Update </button>
+		    {{#button "cancelEdit" type="button"}} Cancel {{/button}}
+		</form>
 
+`$ npm start` and debug. Each line should now be a link that leads to a details page for that model's data only.
 
+And in contact-details, we'll add the form handling necessary for the `UPDATE`:
+
+		define([
+		  'view',
+		  'templates/contacts-list/contact-details'
+		], function (View, template) {
+		  return View.extend({
+		    name: 'contacts-list/contact-details',
+		    template: template,
+		    events: {
+		      "submit .personEditForm": function(e){
+		        e.preventDefault();
+		        this.serialize(function(attrs){  //thorax method that turns inputs into JSON with name attribute as key
+		          this.model.save(attrs, {  //object with success and error methods
+		            success: function(model, response, options){
+		              console.dir(model);
+		              console.dir(response);
+		              console.dir(options);
+		            },
+		            error: function(model, xhr, options){
+		              console.dir(model);
+		              console.dir(xhr);
+		              console.dir(options);
+		            }
+		          });  //issues a PUT if the model already exists
+		          //this.model.trigger('change')  //**WTF - PUTTING THIS IN MEANS YOU CAN REMOVE {set: false}**
+		          console.log(attrs); //take a look at what serialize() is sending over
+		          this.$('input[type=text]').val('');  //clear the form
+		          this.$('.personEditForm').hide();  //hide the form
+		        }, {set: false}); //**WTF - CHECK THIS OUT RYAN - DOES NOT FIRE CHANGE EVENT WITHOUT THIS? WHY?**
+		      },
+		    },
+		    editPerson: function(){
+		      this.$('.personEditForm').show();
+		      //this.populate(); // rather than doing populate here, which we are just showing you... normally you would want to do this in a ready event to avoid any flicker
+		    },
+		    cancelEdit: function(){
+		      this.$('input[type=text]').val('');
+		      this.$('.personEditForm').hide();
+		    },
+		  });
+		});
+
+`$ npm start` and that's the ballgame! We've issued `CREATE`, `GET`, `DELETE` and `PUT`, and used `model`, `collection`, `router`, `view` and `template`. Enjoy!
 
 
 

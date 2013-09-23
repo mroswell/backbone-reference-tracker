@@ -19,8 +19,10 @@ define([
       RootView.getInstance().setView(view);
     },
     details: function(id){
-      var contactsCollection = new ContactCollection();
-      var model = contactsCollection.get(id)
+      var contacts = new ContactCollection();
+      contacts.fetch();
+      console.dir(contacts)
+      var model = contacts.get(id)
       var detailView = new ContactListDetailView({
         model: model
       });
