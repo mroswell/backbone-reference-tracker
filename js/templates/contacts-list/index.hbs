@@ -1,7 +1,10 @@
 {{#collection}}
+
 	{{#link "details/{{id}}" expand-tokens=true}} 
 	  <li> I have a friend named {{firstname}} {{lastname}} who I hit up at {{phone}} </li> 
 	{{/link}}
 	{{#button method="handleDelete"}}Delete{{/button}}
+	
 {{/collection}}
+
 {{view contactForm}}

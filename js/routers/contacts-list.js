@@ -3,12 +3,30 @@ define([
   'views/root',
   'collections/contacts',
   'views/contacts-list/index',
-  'views/contacts-list/contact-details'
-], function(Backbone, RootView, ContactCollection, ContactListIndexView, ContactListDetailView) {
+  'views/contacts-list/contact-details',
+  'views/pet-view',
+  'collections/pets'
+], function(Backbone, RootView, ContactCollection, ContactListIndexView, ContactListDetailView, PetsView, PetsCollection) {
   return Backbone.Router.extend({
     routes: {
       "": "index",
-      "details/:id": "details"
+      "details/:id": "details",
+      "colinNewRoute": "colinNewRoute"
+    },
+    colinNewRoute: function(){
+      var pets = new PetsCollection();
+      pets.create({name: "fifi", breed: "labradoodle"});
+      pets.create({name: "fido", breed: "golden retriever"});
+      pets.create({name: "snowball", breed: "maltese"});
+
+      console.log(pets);
+
+      var petsView = new PetsView({
+        collection: pets
+      });
+
+      RootView.getInstance().setView(petsView)
+
     },
     index: function() {
       var contacts = new ContactCollection();
