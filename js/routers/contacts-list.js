@@ -5,13 +5,50 @@ define([
   'views/contacts-list/index',
   'views/contacts-list/contact-details',
   'views/pet-view',
-  'collections/pets'
-], function(Backbone, RootView, ContactCollection, ContactListIndexView, ContactListDetailView, PetsView, PetsCollection) {
+  'collections/pets',
+  'collections/model-methods',
+  'views/model-methods-view'
+], function(Backbone, RootView, ContactCollection, ContactListIndexView, ContactListDetailView, PetsView, PetsCollection, ModelMethodsCollection, ModelMethodsView) {
   return Backbone.Router.extend({
     routes: {
-      "": "index",
-      "details/:id": "details",
-      "colinNewRoute": "colinNewRoute"
+      "foo1": "index",
+      "foo2/:id": "details",
+      "foo3": "colinNewRoute",
+      "": "backboneCheatSheet"
+    },
+    backboneCheatSheet: function(){
+
+      var modelMethods = new ModelMethodsCollection()
+
+      modelMethods.create({
+        typeFoo: "Model",
+        method: "11111constructor/initialize",
+        codeSnippet: "new Model([attributes])",
+        apiText: "When creating an instance of a model, you can pass in the initial values of the attributes, which will be set on the model."
+      })
+      
+      modelMethods.create({
+        typeFoo: "Model",
+        method: "22222constructor/initialize",
+        codeSnippet: "new Model([attributes])",
+        apiText: "When creating an instance of a model, you can pass in the initial values of the attributes, which will be set on the model."
+      })
+      
+      modelMethods.create({
+        typeFoo: "Model",
+        method: "33333constructor/initialize",
+        codeSnippet: "new Model([attributes])",
+        apiText: "When creating an instance of a model, you can pass in the initial values of the attributes, which will be set on the model."
+      })
+
+
+      var modelMethodsView = new ModelMethodsView({
+        collection: modelMethods
+      });
+
+      RootView.getInstance().setView(modelMethodsView)
+
+
     },
     colinNewRoute: function(){
       var pets = new PetsCollection();

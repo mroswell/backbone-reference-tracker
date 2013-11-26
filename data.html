@@ -1,0 +1,356 @@
+<html>
+<head><title>backbone reference csv</title></head>
+<body>
+<table>
+<tr><th>object</th><th>objdescript</th><th>method</th><th>code</th><th>description</th></tr>
+<tr><td>Events</td><td> Bind and trigger custom named events</td><td>on</td><td>object.on(event, callback, [context])[context])</td><td>Bind a callback function to an object.</td></tr>
+<tr><td>Events</td><td>Bind and trigger custom named events</td><td>off</td><td>object.off([event], [callback], [context])</td><td>Remove a previously-bound callback function from an object.</td></tr>
+<tr><td>Events</td><td>Bind and trigger custom named events</td><td>trigger</td><td>object.trigger(event, [*args])</td><td>Trigger callbacks for the given event, or space-delimited list of events.</td></tr>
+<tr><td>Events</td><td>Bind and trigger custom named events</td><td>once</td><td></td><td></td></tr>
+<tr><td>Model</td><td>Models contain the data, logic, conversations, validations, computed properties, and access control
+</td><td>extend</td><td>Backbone.Model.extend(properties, [classProperties])</td><td>To create a Model class of your own, you extend Backbone.Model and provide instance properties, as well as optional classProperties to be attached directly to the constructor function.</td></tr>
+
+
+
+
+
+
+
+
+
+
+
+collection.create({
+	type: "Model",
+	method: "11111constructor/initialize",
+	codeSnippet: "new Model([attributes])",
+	apiText: "When creating an instance of a model, you can pass in the initial values of the attributes, which will be set on the model."
+})
+
+collection.create({
+	type: "Model",
+	method: "22222constructor/initialize",
+	codeSnippet: "new Model([attributes])",
+	apiText: "When creating an instance of a model, you can pass in the initial values of the attributes, which will be set on the model."
+})
+
+collection.create({
+	type: "Model",
+	method: "33333constructor/initialize",
+	codeSnippet: "new Model([attributes])",
+	apiText: "When creating an instance of a model, you can pass in the initial values of the attributes, which will be set on the model."
+})
+
+
+
+<tr><td>Model</td>
+<td>constructor / initialize</td>
+<td>new Model([attributes])</td>
+<td>When creating an instance of a model, you can pass in the initial values of the attributes, which will be set on the model.</td>
+
+
+
+
+<tr><td>Model</td>
+
+<td>get</td>
+<td>model.get(attribute)</td>
+<td>Get the current value of an attribute from the model.</td>
+
+
+
+
+<tr><td>Model</td>
+
+<td>set</td>
+<td>model.set(attributes, [options])</td>
+<td>Set a hash of attributes (one or many) on the model.</td>
+
+
+
+
+<tr><td>Model</td>
+
+<td>escape</td>
+<td>model.escape(attribute)</td>
+<td>Similar to get, but returns the HTML-escaped version of a model's attribute.</td>
+
+
+
+
+<tr><td>Model</td>
+
+<td>has</td>
+<td>model.has(attribute)</td>
+<td>Returns true if the attribute is set to a non-null or non-undeÔ¨Åned value.</td>
+
+
+
+
+<tr><td>Model</td>
+
+<td>unset</td>
+<td>model.unset(attribute, [options])</td>
+<td>Remove an attribute by deleting it from the internal attributes hash.</td>
+
+
+
+
+<tr><td>Model</td>
+
+<td>clear</td>
+<td>model.clear([options])</td>
+<td>Removes all attributes from the model.</td>
+
+
+
+
+<tr><td>Model</td>
+
+<td>id</td>
+<td>model.id</td>
+<td>A special property of models, the id is an arbitrary string (integer id or UUID).</td>
+
+
+
+
+<tr><td>Model</td>
+
+<td>idAttribute</td>
+<td>model.idAttribute</td>
+<td>A model's unique identiÔ¨Åer is stored under the id attribute.</td>
+
+
+
+
+<tr><td>Model</td>
+
+<td>cid</td>
+<td>model.cid</td>
+<td>A special property of models, the cid or client id is a unique identiÔ¨Åer automatically assigned to all models when they're Ô¨Årst created.</td>
+
+
+
+
+<tr><td>Model</td>
+
+<td>attributes</td>
+<td>model.attributes</td>
+<td>The attributes property is the internal hash containing the model's state.</td>
+
+
+
+
+<tr><td>Model</td>
+
+<td>defaults</td>
+<td>model.defaults or model.defaults()</td>
+<td>The defaults hash (or function) can be used to specify the default attributes for your model.</td>
+
+
+
+
+<td>Model</td>
+
+<td>toJSON</td>
+<td>model.toJSON()</td>
+<td>Return a copy of the model's attributes for JSON stringiÔ¨Åcation.</td>
+
+
+
+
+<td>Model</td>
+
+<td>fetch</td>
+<td>model.fetch([options])</td>
+<td>Resets the model's state from the server.</td>
+
+
+
+
+<td>Model</td>
+
+<td>save</td>
+<td>model.save([attributes], [options])</td>
+<td>Save a model to your database (or alternative persistence layer), by delegating to Backbone.sync.</td>
+
+
+
+
+<td>Model</td>
+
+<td>destroy</td>
+<td>model.destroy([options])</td>
+<td>Destroys the model on the server by delegating an HTTP DELETE request to Backbone.sync.</td>
+
+
+
+
+<td>Model</td>
+
+<td>validate</td>
+<td>model.validate(attributes)</td>
+<td>Validate is called before set and save, and is passed the attributes that are about to be updated.</td>
+
+
+
+
+<td>Model</td>
+
+<td>isValid</td>
+<td>model.isValid()</td>
+<td>Call model.isValid() to check if the model is currently in a valid state, according to your validate function.</td>
+
+
+
+
+<td>Model</td>
+
+<td>url</td>
+<td>model.url()</td>
+<td>Returns the relative URL where the model's resource would be located on the server.</td>
+
+
+
+
+<td>Model</td>
+
+<td>urlRoot</td>
+<td>model.urlRoot</td>
+<td>Specify a urlRoot if you're using a model outside of a collection, to enable the default url function to generate URLs based on the model id.</td>
+
+
+
+
+<td>Model</td>
+
+<td>parse</td>
+<td>model.parse(response).url()</td>
+<td>Parse is called whenever a model's data is returned by the server, in fetch, and save.</td>
+
+
+
+
+<td>Model</td>
+
+<td>clone</td>
+<td>model.clone()</td>
+<td>Returns a new instance of the model with identical attributes.</td>
+
+
+
+
+<td>Model</td>
+
+<td>isNew</td>
+<td>model.isNew()</td>
+<td>If the model does not yet have an id, it is considered to be new.</td>
+
+
+
+
+<td>Model</td>
+
+<td>change</td>
+<td>model.change()</td>
+<td>Manually trigger the "change" event and a "change:attribute" event for each attribute that has changed.</td>
+
+
+
+
+<td>Model</td>
+
+<td>hasChanged</td>
+<td>model.hasChanged([attribute])</td>
+<td>Has the model changed since the last "change" event?</td>
+
+
+
+
+<td>Model</td>
+
+<td>changedAttributes</td>
+<td>model.changedAttributes([attributes])</td>
+<td>Retrieve a hash of only the model's attributes that have changed.</td>
+
+
+
+
+<td>Model</td>
+
+<td>previous</td>
+<td>model.previous(attribute)</td>
+<td>During a "change" event, this method can be used to get the previous value of a changed attribute.</td>
+
+
+
+
+<td>Model</td>
+
+<td>previousAttributes</td>
+<td>model.previousAttributes()</td>
+<td>Return a copy of the model's previous attributes.</td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<td>Collection</td><td>Collections are ordered sets of models</td><td>extend</td><td>Backbone.Collection.extend(properties, [classProperties])</td><td>To create a Collection class of your own, extend Backbone.Collection, providing instance properties, as well as optional classProperties to be attached directly to the collection's constructor function.</td>
+<tr><td>Collection</td><td>Collections are ordered sets of models</td><td>model</td><td>collection.model</td><td>Override this property to specify the model class that the collection contains.</td></tr>
+<tr><td>Collection</td><td>Collections are ordered sets of models</td><td>constructor / initialize</td><td>new Collection([models], [options])</td><td>When creating a Collection, you may choose to pass in the initial array of models. The collection's comparator function may be included as an option.</td></tr>
+<tr><td>Collection</td><td>Collections are ordered sets of models</td><td>models</td><td>collection.models</td><td>Raw access to the JavaScript array of models inside of the collection.</td></tr>
+<tr><td>Collection</td><td>Collections are ordered sets of models</td><td>toJSON</td><td>collection.toJSON()</td><td>Return an array containing the attributes hash of each model in the collection.</td></tr>
+<tr><td>Collection</td><td>Collections are ordered sets of models</td><td>add</td><td>collection.add(models, [options])</td><td>Add a model (or an array of models) to the collection.</td></tr>
+<tr><td>Collection</td><td>Collections are ordered sets of models</td><td>remove</td><td>collection.remove(models, [options])</td><td>Remove a model (or an array of models) from the collection.</td></tr>
+<tr><td>Collection</td><td>Collections are ordered sets of models</td><td>get</td><td>collection.get(id)</td><td>Get a model from a collection, speciÔ¨Åed by id.</td></tr>
+<tr><td>Collection</td><td>Collections are ordered sets of models</td><td>getByCid</td><td>collection.getByCid(cid)</td><td>Get a model from a collection, speciÔ¨Åed by client id.</td></tr>
+<tr><td>Collection</td><td>Collections are ordered sets of models</td><td>at</td><td>collection.at(index)</td><td>Get a model from a collection, speciÔ¨Åed by index.</td></tr>
+<tr><td>Collection</td><td>Collections are ordered sets of models</td><td>length</td><td>collection.length</td><td>Like an array, a Collection maintains a length property, counting the number of models it contains.</td></tr>
+<tr><td>Collection</td><td>Collections are ordered sets of models</td><td>comparator</td><td>collection.comparator</td><td>If you deÔ¨Åne a comparator, it will be used to maintain the collection in sorted order.</td></tr>
+<tr><td>Collection</td><td>Collections are ordered sets of models</td><td>sort</td><td>collection.sort([options])</td><td>Force a collection to re-sort itself.</td></tr>
+<tr><td>Collection</td><td>Collections are ordered sets of models</td><td>pluck</td><td>collection.pluck(attribute)</td><td>Pluck an attribute from each model in the collection.</td></tr>
+<tr><td>Collection</td><td>Collections are ordered sets of models</td><td>url</td><td>collection.url or collection.url()</td><td>Set the url property (or function) on a collection to reference its location on the server.</td></tr>
+<tr><td>Collection</td><td>Collections are ordered sets of models</td><td>parse</td><td>collection.parse(response)</td><td>Parse is called by Backbone whenever a collection's models are returned by the server, in fetch.</td></tr>
+<tr><td>Collection</td><td>Collections are ordered sets of models</td><td>fetch</td><td>collection.fetch([options])</td><td>Fetch the default set of models for this collection from the server, resetting the collection when</td></tr>
+<tr><td>Collection</td><td>Collections are ordered sets of models</td><td>reset</td><td>collection.reset(models, [options])</td><td>Adding and removing models one at a time is all well and good, but sometimes you have so many models to change that you'd rather just update the collection in bulk.</td></tr>
+<tr><td>Collection</td><td>Collections are ordered sets of models</td><td>create</td><td>collection.create(attributes, [options])</td><td>Convenience to create a new instance of a model within a collection.</td></tr>
+<tr><td>Router</td><td>Router provides methods for routing client-side pages, and connecting them to actions and events.</td><td>extend</td><td>Backbone.Router.extend(properties, [classProperties])</td><td>DeÔ¨Åne actions that are triggered when certain URL fragments are matched.</td></tr>
+<tr><td>Router</td><td>Router provides methods for routing client-side pages, and connecting them to actions and events.</td><td>routes</td><td>router.routes</td><td>The routes hash maps URLs with parameters to functions on your router</td></tr>
+<tr><td>Router</td><td>Router provides methods for routing client-side pages, and connecting them to actions and events.</td><td>constructor / initialize</td><td>new Router([options])</td><td>When creating a new router, you may pass its routes hash directly as an option, if you choose.</td></tr>
+<tr><td>Router</td><td>Router provides methods for routing client-side pages, and connecting them to actions and events.</td><td>route</td><td>router.route(route, name, [callback])</td><td>Manually create a route for the router.</td></tr>
+<tr><td>Router</td><td>Router provides methods for routing client-side pages, and connecting them to actions and events.</td><td>navigate</td><td>router.navigate(fragment, [options])</td><td>Call navigate in order to update the URL.</td></tr>
+<tr><td>History</td><td>History serves as a global router (per frame) to handle hashchange events or pushState, match the appropriate route, and trigger callbacks.</td><td>start</td><td></td><td>Call Backbone.history.start() to begin monitoring hashchange events, and dispatching routes.</td></tr>
+<tr><td>Sync</td><td>function that Backbone calls every time it attempts to read or save a model to the server.</td><td>emulateHTTP</td><td></td><td></td></tr>
+<tr><td>Sync</td><td>function that Backbone calls every time it attempts to read or save a model to the server.</td><td>emulateJSON</td><td></td><td></td></tr>
+<tr><td>View</td><td>organize your interface into logical views, backed by models, each of which can be updated independently when the model changes, without having to redraw the page.</td><td>extend</td><td>Backbone.View.extend(properties, [classProperties])</td><td></td></tr>
+<tr><td>View</td><td>organize your interface into logical views, backed by models, each of which can be updated independently when the model changes, without having to redraw the page.</td><td>constructor / initialize</td><td>new View([options])</td><td></td></tr>
+<tr><td>View</td><td>organize your interface into logical views, backed by models, each of which can be updated independently when the model changes, without having to redraw the page.</td><td>el</td><td>view.el</td><td>All views have a DOM element at all times (the el property)</td></tr>
+<tr><td>View</td><td>organize your interface into logical views, backed by models, each of which can be updated independently when the model changes, without having to redraw the page.</td><td>$el</td><td>view.$el</td><td>A cached jQuery (or Zepto) object for the view's element.</td></tr>
+<tr><td>View</td><td>organize your interface into logical views, backed by models, each of which can be updated independently when the model changes, without having to redraw the page.</td><td>setElement</td><td>view.setElement(element)</td><td>Call setElement to apply a Backbone view to a different DOM element.</td></tr>
+<tr><td>View</td><td>organize your interface into logical views, backed by models, each of which can be updated independently when the model changes, without having to redraw the page.</td><td>attributes</td><td>view.attributes</td><td>A hash of attributes that will be set as HTML DOM element attributes on the view's el.</td></tr>
+<tr><td>View</td><td>organize your interface into logical views, backed by models, each of which can be updated independently when the model changes, without having to redraw the page.</td><td>$ (jQuery  or Zepto)</td><td>view.$(selector)</td><td>Function that runs queries scoped within the view's element.</td></tr>
+<tr><td>View</td><td>organize your interface into logical views, backed by models, each of which can be updated independently when the model changes, without having to redraw the page.</td><td>render</td><td>view.render()</td><td>Override this function with your code that renders the view template from model data, and updates this.el with the new HTML.</td></tr>
+<tr><td>View</td><td>organize your interface into logical views, backed by models, each of which can be updated independently when the model changes, without having to redraw the page.</td><td>remove</td><td>view.remove()</td><td>Convenience function for removing the view from the DOM.</td></tr>
+<tr><td>View</td><td>organize your interface into logical views, backed by models, each of which can be updated independently when the model changes, without having to redraw the page.</td><td>make</td><td>view.make(tagName, [attributes], [content])</td><td>Convenience function for creating a DOM element of the given type (tagName).</td></tr>
+<tr><td>View</td><td>organize your interface into logical views, backed by models, each of which can be updated independently when the model changes, without having to redraw the page.</td><td>delegateEvents</td><td>delegateEvents([events])</td><td>Uses jQuery's delegate function to provide declarative callbacks for DOM events within a view.</td></tr>
+<tr><td>View</td><td>organize your interface into logical views, backed by models, each of which can be updated independently when the model changes, without having to redraw the page.</td><td>undelegateEvents</td><td>undelegateEvents()</td><td>Removes all of the view's delegated events.</td></tr>
+<tr><td>Utility</td><td></td><td>noConÔ¨Çict</td><td>var backbone = Backbone.noConÔ¨Çict();</td><td>Returns the Backbone object back to its original value.</td></tr>
+<tr><td>Utility</td><td></td><td>setDomLibrary</td><td>Backbone.setDomLibrary(jQueryNew);</td><td>Tell Backbone to use a particular object as it's DOM / Ajax library.</td></tr>
+</table>
+</body>
+</html>
