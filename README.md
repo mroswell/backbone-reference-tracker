@@ -1,4 +1,4 @@
-thorax-contacts-list-require-tutorial
+Backbone Reference Tracker
 =====================================
 
-This is the second tutorial in a series, the first of which is 'from zero to todos'
+List of Backbone methods
